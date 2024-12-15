@@ -1,8 +1,6 @@
 import { USAStationConfig } from "types";
 
 export const USA_WEATHER_STATIONS: USAStationConfig[] = [
-  { name: "Grand Forks", code: "KGFK" },
-  { name: "Fargo", code: "KFAR" },
   { name: "Minneapolis", code: "KMSP" },
   { name: "Chicago", code: "KORD" },
   { name: "Las Vegas", code: "KVGT" },

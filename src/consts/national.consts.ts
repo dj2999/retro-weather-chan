@@ -1,21 +1,14 @@
 import { NationalStationConfig } from "types";
 
 export const MB_WEATHER_STATIONS: NationalStationConfig[] = [
-  { name: "Portage", code: "MB/s0000626" },
-  { name: "Brandon", code: "MB/s0000492" },
-  { name: "Dauphin", code: "MB/s0000508" },
-  { name: "Kenora", code: "ON/s0000651" },
-  { name: "Thompson", code: "MB/s0000695" },
-  { name: "The Pas", code: "MB/s0000644" },
-  { name: "Lynn Lake", code: "MB/s0000777" },
-  { name: "Churchill", code: "MB/s0000779", isBackup: true },
-  { name: "Sx. Lookout", code: "ON/s0000748", isBackup: true },
-  { name: "Red Lake", code: "ON/s0000676", isBackup: true },
-  { name: "Flin Flon", code: "MB/s0000015", isBackup: true },
-  { name: "Norway House", code: "MB/s0000616", isBackup: true },
-  { name: "Dryden", code: "ON/s0000546", isBackup: true },
-  { name: "Gillam", code: "MB/s0000543", isBackup: true },
+  { name: "Jasper", code: "AB/s0000218" },
+  { name: "Calgary", code: "AB/s0000047" },
+  { name: "Lethbridge", code: "AB/s0000652" },
+  { name: "Grande Prairie". code: "AB/s0000661" },
+  { name: "High Level", code: "AB/s0000621" },
+  { name: "Saskatoon", code: "SK/s0000797" },
 ];
+
 
 export const WEST_WEATHER_STATIONS: NationalStationConfig[] = [
   { name: "Vancouver", code: "BC/s0000141" },

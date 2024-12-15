@@ -10,11 +10,11 @@ services:
      # - ./cfg:/root/retro-env-can-weather-chan/cfg
      #
      # For music: uncomment the below and update the path as necessary. 
-     # - ./music:/root/retro-env-can-weather-chan/music
+     - /home/djansen/music:/root/retro-env-can-weather-chan/music
     ports:
-      - 8600:8600
+      - 8730:8600
     environment: 
-      - TZ=America/Winnipeg
+      - TZ=America/Edmonton
 # Remove "cfg" below if using a bind mount to store config in local filesystem.
 volumes:
   cfg:

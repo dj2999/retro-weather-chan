@@ -333,6 +333,32 @@ class Config {
   public async regeneratePlaylist() {
     await this.checkMusicDirectoryBlocking();
   }
+
+  public setProvince(province: string) {
+    if (!province.length || province.length > 2 || typeof province !== "string") return;
+
+    this.primaryLocation.province = province.toUpperCase();
+    this.climateNormals.province = province.toUpperCase();
+
+    // Update province stations if provinceHighLowEnabled is true
+    if (this.provinceHighLowEnabled) {
+      // Logic to update provinceStations based on the selected province
+      // Example:
+      switch (province.toUpperCase()) {
+        case "MB":
+          this.provinceStations = PROVINCE_TRACKING_DEFAULT_STATIONS.filter(station => station.code.startsWith("MB"));
+          break;
+        case "SK":
+          this.provinceStations = PROVINCE_TRACKING_DEFAULT_STATIONS.filter(station => station.code.startsWith("SK"));
+          break;
+        // Add more cases as needed
+        default:
+          this.provinceStations = PROVINCE_TRACKING_DEFAULT_STATIONS;
+      }
+    }
+
+    this.saveConfig();
+  }
 }
 
 let config: Config = null;

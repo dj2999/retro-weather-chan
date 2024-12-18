@@ -31,7 +31,7 @@ export function FooterBar(props: FooterBarProps) {
         {"".padStart(5)}
         {formattedDate}
       </div>
-      <div id="header">Environment Canada Weather</div>
+      <div id="header">Data by Environment Canada</div>
     </div>
   );
 }

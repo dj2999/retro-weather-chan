@@ -4,11 +4,23 @@ export const MB_WEATHER_STATIONS: NationalStationConfig[] = [
   { name: "Jasper", code: "AB/s0000218" },
   { name: "Calgary", code: "AB/s0000047" },
   { name: "Lethbridge", code: "AB/s0000652" },
-  { name: "Grande Prairie". code: "AB/s0000661" },
+  { name: "Grande Prairie", code: "AB/s0000661" },
   { name: "High Level", code: "AB/s0000621" },
   { name: "Saskatoon", code: "SK/s0000797" },
+  { name: "Regina", code: "SK/s0000788" },
+  { name: "Kamloops", code: "BC/s0000568" },
 ];
 
+export const SK_WEATHER_STATIONS: NationalStationConfig[] = [
+  { name: "Saskatoon", code: "SK/s0000797" },
+  { name: "Regina", code: "SK/s0000788" },
+  { name: "Prince Albert", code: "SK/s0000793" },
+  { name: "Moose Jaw", code: "SK/s0000812" },
+  { name: "Lloydminster", code: "SK/s0000813" },
+  { name: "Yorkton", code: "SK/s0000663" },
+  { name: "Swift Current", code: "SK/s0000814" },
+  { name: "North Battleford", code: "SK/s0000815" },
+];
 
 export const WEST_WEATHER_STATIONS: NationalStationConfig[] = [
   { name: "Vancouver", code: "BC/s0000141" },

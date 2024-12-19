@@ -12,7 +12,7 @@ services:
      # For music: uncomment the below and update the path as necessary. 
      - /home/djansen/music:/root/retro-env-can-weather-chan/music
     ports:
-      - 8730:8600
+      - 8740:8600
     environment: 
       - TZ=America/Edmonton
 # Remove "cfg" below if using a bind mount to store config in local filesystem.

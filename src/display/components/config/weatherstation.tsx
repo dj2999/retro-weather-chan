@@ -1,23 +1,6 @@
-import {
-  Heading,
-  Stack,
-  Text,
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  Button,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-  useToast,
-} from "@chakra-ui/react";
-import axios from "lib/axios";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { Stack, Text, FormControl, FormLabel, Input, Button, Table, Thead, Tbody, Tr, Th, Td, TableContainer, useToast, Heading, Select } from "@chakra-ui/react";
+import axios from "lib/axios";
 import { ECCCWeatherStation, PrimaryLocation } from "types";
 
 type WeatherStationConfigProps = { weatherStation: PrimaryLocation };
@@ -72,6 +55,26 @@ export function WeatherStationConfig({ weatherStation }: WeatherStationConfigPro
       .finally(() => setIsUpdatingPrimaryLocation(undefined));
   };
 
+  const handleCityChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const city = e.target.value;
+    axios
+      .post("config/primaryLocationByCity", { city })
+      .then(() => {
+        toast({
+          title: "Weather station updated",
+          description: `Your main weather station has been updated to ${city}, changes will take affect shortly`,
+          status: "success",
+        });
+      })
+      .catch(() => {
+        toast({
+          title: "Unable to save",
+          description: "An error occured updating your weather station, please try again",
+          status: "error",
+        });
+      });
+  };
+
   return (
     <Stack spacing={6}>
       <Stack>
@@ -92,6 +95,18 @@ export function WeatherStationConfig({ weatherStation }: WeatherStationConfigPro
           )}
           {!weatherStation && <>Default</>}
         </Text>
+      </Stack>
+
+      <Stack>
+        <Heading as="h2" size="md">
+          Select City
+        </Heading>
+        <FormControl>
+          <Select placeholder="Select city" onChange={handleCityChange}>
+            <option value="Winnipeg">Winnipeg</option>
+            <option value="Edmonton">Edmonton</option>
+          </Select>
+        </FormControl>
       </Stack>
 
       <Stack>
@@ -133,25 +148,25 @@ export function WeatherStationConfig({ weatherStation }: WeatherStationConfigPro
               </Thead>
               <Tbody>
                 {results?.length ? (
-                  results.map((result) => (
-                    <Tr key={result.location}>
-                      <Td>{result.name}</Td>
-                      <Td>{result.province}</Td>
-                      <Td>{result.location}</Td>
+                  results.map((station) => (
+                    <Tr key={station.location}>
+                      <Td>{station.name}</Td>
+                      <Td>{station.province}</Td>
+                      <Td>{station.location}</Td>
                       <Td>
                         <Button
-                          onClick={() => selectStation(result)}
-                          isDisabled={!!isUpdatingPrimaryLocation}
-                          isLoading={isUpdatingPrimaryLocation === result.location}
+                          colorScheme="teal"
+                          onClick={() => selectStation(station)}
+                          isLoading={isUpdatingPrimaryLocation === station.location}
                         >
-                          Select Station
+                          Select
                         </Button>
                       </Td>
                     </Tr>
                   ))
                 ) : (
                   <Tr>
-                    <Td colSpan={4}>No stations were found</Td>
+                    <Td colSpan={4}>No stations found</Td>
                   </Tr>
                 )}
               </Tbody>

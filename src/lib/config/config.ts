@@ -280,7 +280,7 @@ class Config {
     } else if (city.toLowerCase() === "edmonton") {
       this.primaryLocation = {
         province: "AB",
-        location: "some_edmonton_station_id", // Replace with actual Edmonton station ID
+        location: "s0000045", // Replace with actual Edmonton station ID
         name: "Edmonton",
       };
     } else {

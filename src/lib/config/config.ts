@@ -270,6 +270,25 @@ class Config {
     eventbus.emit(EVENT_BUS_CONFIG_CHANGE_PRIMARY_LOCATION, true);
   }
 
+  public setPrimaryLocationByCity(city: string) {
+    if (city.toLowerCase() === "winnipeg") {
+      this.primaryLocation = {
+        province: "MB",
+        location: DEFAULT_WEATHER_STATION_ID,
+        name: "Winnipeg",
+      };
+    } else if (city.toLowerCase() === "edmonton") {
+      this.primaryLocation = {
+        province: "AB",
+        location: "some_edmonton_station_id", // Replace with actual Edmonton station ID
+        name: "Edmonton",
+      };
+    } else {
+      throw new Error("Unsupported city");
+    }
+    eventbus.emit(EVENT_BUS_CONFIG_CHANGE_PRIMARY_LOCATION, true);
+  }
+
   public setProvinceStations(isEnabled: boolean, stations: ProvinceStations) {
     this.provinceHighLowEnabled = isEnabled;
     if (stations?.length) this.provinceStations = stations;

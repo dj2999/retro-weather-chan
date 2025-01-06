@@ -1,12 +1,56 @@
-import { ChangeEvent, FormEvent, useState } from "react";
-import { Stack, Text, FormControl, FormLabel, Input, Button, Table, Thead, Tbody, Tr, Th, Td, TableContainer, useToast, Heading, Select } from "@chakra-ui/react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
+import {
+  Stack, Text, FormControl, FormLabel, Input, Button, Table, Thead, Tbody, Tr, Th, Td, TableContainer, useToast, Heading, Select, FormHelperText
+} from "@chakra-ui/react";
 import axios from "lib/axios";
-import { ECCCWeatherStation, PrimaryLocation } from "types";
+import { ECCCWeatherStation, PrimaryLocation, ProvinceStation } from "types";
 
 type WeatherStationConfigProps = { weatherStation: PrimaryLocation };
 
+const initialStations: ProvinceStation[] = [
+  { name: "Winnipeg", code: `MB/s0000458` },
+  { name: "Portage", code: "MB/s0000626" },
+  { name: "Brandon", code: "MB/s0000492" },
+  { name: "Dauphin", code: "MB/s0000508" },
+  { name: "Kenora", code: "ON/s0000651" },
+  { name: "Thompson", code: "MB/s0000695" },
+];
+
 export function WeatherStationConfig({ weatherStation }: WeatherStationConfigProps) {
   const toast = useToast();
+  const [stations, setStations] = useState<ProvinceStation[]>(initialStations);
+
+  useEffect(() => {
+    // Fetch the current stations from the config when the component mounts
+    axios.get("/config/provinceStations")
+      .then((resp) => setStations(resp.data))
+      .catch(() => setStations(initialStations));
+  }, []);
+
+  const handleStationChange = (index: number, field: string, value: string) => {
+    const newStations = [...stations];
+    newStations[index] = { ...newStations[index], [field]: value };
+    setStations(newStations);
+  };
+
+  const saveStations = () => {
+    axios.post("/config/provinceStations", { stations })
+      .then(() => {
+        toast({
+          title: "Stations updated",
+          description: "Province stations have been updated successfully.",
+          status: "success",
+        });
+      })
+      .catch(() => {
+        toast({
+          title: "Error",
+          description: "An error occurred while updating the stations.",
+          status: "error",
+        });
+      });
+  };
+
   const [search, setSearch] = useState<string>();
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<Array<ECCCWeatherStation>>();
@@ -174,6 +218,23 @@ export function WeatherStationConfig({ weatherStation }: WeatherStationConfigPro
           </TableContainer>
         </Stack>
       )}
+
+      <Stack spacing={6}>
+        <Heading as="h2" size="md">Edit Province Stations</Heading>
+        {stations.map((station, index) => (
+          <Stack key={index} spacing={4} direction="row">
+            <FormControl>
+              <FormLabel>Station Name</FormLabel>
+              <Input value={station.name} onChange={(e) => handleStationChange(index, "name", e.target.value)} />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Station Code</FormLabel>
+              <Input value={station.code} onChange={(e) => handleStationChange(index, "code", e.target.value)} />
+            </FormControl>
+          </Stack>
+        ))}
+        <Button colorScheme="teal" onClick={saveStations}>Save Stations</Button>
+      </Stack>
     </Stack>
   );
 }

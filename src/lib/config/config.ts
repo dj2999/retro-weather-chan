@@ -11,6 +11,7 @@ import {
   FLAVOUR_DIRECTORY,
   FS_NO_FILE_FOUND,
   PROVINCE_TRACKING_DEFAULT_STATIONS,
+  saveProvinceTrackingStations,
 } from "consts";
 import { FlavourLoader } from "lib/flavour";
 import Logger from "lib/logger";
@@ -22,7 +23,6 @@ import {
   MiscConfig,
   PrimaryLocation,
   ProvinceStation,
-  ProvinceStations,
 } from "types";
 import eventbus from "lib/eventbus";
 
@@ -289,9 +289,10 @@ class Config {
     eventbus.emit(EVENT_BUS_CONFIG_CHANGE_PRIMARY_LOCATION, true);
   }
 
-  public setProvinceStations(isEnabled: boolean, stations: ProvinceStations) {
+  public setProvinceStations(isEnabled: boolean, stations: ProvinceStation[]) {
     this.provinceHighLowEnabled = isEnabled;
     if (stations?.length) this.provinceStations = stations;
+    saveProvinceTrackingStations(stations);
 
     eventbus.emit(EVENT_BUS_CONFIG_CHANGE_PROVINCE_TRACKING, true);
   }

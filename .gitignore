@@ -30,6 +30,7 @@ coverage
 
 # REC
 db*
-cfg*
+cfg/*
+!cfg/stations.example.json
 alerts.txt
 build*

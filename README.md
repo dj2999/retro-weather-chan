@@ -123,6 +123,10 @@ By default no configuration is required and the simulator will automatically poi
 
 This will allow you to setup extra features such as custom screen rotation (flavours), Air Quality readings, rejecting in-hour condition updates, alternative temperature record source, crawler messages, and more.
 
+### Custom station lists (National/USA/Province tracking)
+
+Station/city lists used for the “across Canada”, “across the US”, and default province-tracking screens are loaded from `cfg/stations.json` (copy from `cfg/stations.example.json` to get started).
+
 ### Automatic reload
 
 When your config is saved the updated changes should reflect on the display no more than 5 minutes later (including playlist changes).

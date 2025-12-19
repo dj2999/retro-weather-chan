@@ -1,0 +1,149 @@
+import fs from "fs";
+import path from "path";
+
+import Logger from "./logger";
+import { NationalStationConfig, ProvinceStation, StationDataFile, USAStationConfig } from "types";
+
+const logger = new Logger("StationData");
+const STATIONS_FILE_PATH = path.resolve("cfg", "stations.json");
+const STATIONS_EXAMPLE_FILE_PATH = path.resolve("cfg", "stations.example.json");
+
+// Fallback data used when the JSON config is missing or invalid
+const DEFAULT_STATION_DATA: StationDataFile = {
+  national: {
+    mb: [
+      { name: "Portage", code: "MB/s0000626" },
+      { name: "Brandon", code: "MB/s0000492" },
+      { name: "Dauphin", code: "MB/s0000508" },
+      { name: "Kenora", code: "ON/s0000651" },
+      { name: "Thompson", code: "MB/s0000695" },
+      { name: "The Pas", code: "MB/s0000644" },
+      { name: "Lynn Lake", code: "MB/s0000777" },
+      { name: "Churchill", code: "MB/s0000779", isBackup: true },
+      { name: "Sx. Lookout", code: "ON/s0000748", isBackup: true },
+      { name: "Red Lake", code: "ON/s0000676", isBackup: true },
+      { name: "Flin Flon", code: "MB/s0000015", isBackup: true },
+      { name: "Norway House", code: "MB/s0000616", isBackup: true },
+      { name: "Dryden", code: "ON/s0000546", isBackup: true },
+      { name: "Gillam", code: "MB/s0000543", isBackup: true },
+    ],
+    west: [
+      { name: "Vancouver", code: "BC/s0000141" },
+      { name: "Victoria", code: "BC/s0000775" },
+      { name: "Edmonton", code: "AB/s0000510" },
+      { name: "Calgary", code: "AB/s0000047" },
+      { name: "Saskatoon", code: "SK/s0000797" },
+      { name: "Regina", code: "SK/s0000788" },
+      { name: "Thunder Bay", code: "ON/s0000411" },
+      { name: "Whitehorse", code: "YT/s0000825", isBackup: true },
+      { name: "Yellowknife", code: "NT/s0000366", isBackup: true },
+      { name: "Medicine Hat", code: "AB/s0000745", isBackup: true },
+      { name: "Lethbridge", code: "AB/s0000652", isBackup: true },
+      { name: "Kelowna", code: "BC/s0000592", isBackup: true },
+      { name: "Kamloops", code: "BC/s0000568", isBackup: true },
+      { name: "Yorkton", code: "SK/s0000663", isBackup: true },
+    ],
+    east: [
+      { name: "Toronto", code: "ON/s0000458" },
+      { name: "Ottawa", code: "ON/s0000623" },
+      { name: "Montreal", code: "QC/s0000635" },
+      { name: "Quebec City", code: "QC/s0000620" },
+      { name: "Fredericton", code: "NB/s0000250" },
+      { name: "Halifax", code: "NS/s0000318" },
+      { name: "St. John's", code: "NL/s0000280" },
+      { name: "Charlottet'n", code: "PE/s0000583", isBackup: true },
+      { name: "London", code: "ON/s0000326", isBackup: true },
+      { name: "Moncton", code: "NB/s0000654", isBackup: true },
+      { name: "Sydney", code: "NS/s0000670", isBackup: true },
+      { name: "Windsor", code: "NS/s0000438", isBackup: true },
+      { name: "Sudbury", code: "ON/s0000680", isBackup: true },
+      { name: "Gander", code: "NL/s0000667", isBackup: true },
+    ],
+  },
+  usa: [
+    { name: "Grand Forks", code: "KGFK" },
+    { name: "Fargo", code: "KFAR" },
+    { name: "Minneapolis", code: "KMSP" },
+    { name: "Chicago", code: "KORD" },
+    { name: "Las Vegas", code: "KVGT" },
+    { name: "Tampa", code: "KTPA" },
+    { name: "Los Angeles", code: "KLAX" },
+    { name: "Denver", code: "KBKF", isBackup: true },
+    { name: "Detroit", code: "KDET", isBackup: true },
+    { name: "New York", code: "KNYC", isBackup: true },
+    { name: "Miami", code: "KMIA", isBackup: true },
+    { name: "Santa Fe", code: "KSAF", isBackup: true },
+    { name: "Dallas", code: "KDFW", isBackup: true },
+    { name: "Seattle", code: "KSEA", isBackup: true },
+  ],
+  provinceTrackingDefaults: [
+    { name: "Winnipeg", code: "MB/s0000193" },
+    { name: "Portage", code: "MB/s0000626" },
+    { name: "Brandon", code: "MB/s0000492" },
+    { name: "Dauphin", code: "MB/s0000508" },
+    { name: "Kenora", code: "ON/s0000651" },
+    { name: "Thompson", code: "MB/s0000695" },
+  ],
+};
+
+function normalizeStationData(data: Partial<StationDataFile> = {}): StationDataFile {
+  const { national = {}, usa, provinceTrackingDefaults } = data;
+
+  return {
+    national: {
+      mb: national.mb?.length ? national.mb : DEFAULT_STATION_DATA.national.mb,
+      east: national.east?.length ? national.east : DEFAULT_STATION_DATA.national.east,
+      west: national.west?.length ? national.west : DEFAULT_STATION_DATA.national.west,
+    },
+    usa: usa?.length ? usa : DEFAULT_STATION_DATA.usa,
+    provinceTrackingDefaults: provinceTrackingDefaults?.length
+      ? provinceTrackingDefaults
+      : DEFAULT_STATION_DATA.provinceTrackingDefaults,
+  };
+}
+
+function loadStationData(): StationDataFile {
+  try {
+    const filePathToLoad = fs.existsSync(STATIONS_FILE_PATH)
+      ? STATIONS_FILE_PATH
+      : fs.existsSync(STATIONS_EXAMPLE_FILE_PATH)
+        ? STATIONS_EXAMPLE_FILE_PATH
+        : null;
+
+    if (!filePathToLoad) {
+      logger.warn(
+        `No station data found at ${STATIONS_FILE_PATH} (or example at ${STATIONS_EXAMPLE_FILE_PATH}). Using defaults.`
+      );
+      return DEFAULT_STATION_DATA;
+    }
+
+    const rawData = fs.readFileSync(filePathToLoad, "utf8");
+    const parsedData = JSON.parse(rawData);
+    return normalizeStationData(parsedData);
+  } catch (err) {
+    logger.error("Unable to load station data, falling back to defaults", err);
+    return DEFAULT_STATION_DATA;
+  }
+}
+
+const stationData = loadStationData();
+
+function cloneStations<T>(stations: T[]): T[] {
+  return stations.map((station) => ({ ...station }));
+}
+
+export function getNationalStationData(): StationDataFile["national"] {
+  return {
+    mb: cloneStations<NationalStationConfig>(stationData.national.mb),
+    east: cloneStations<NationalStationConfig>(stationData.national.east),
+    west: cloneStations<NationalStationConfig>(stationData.national.west),
+  };
+}
+
+export function getUSAStationData(): USAStationConfig[] {
+  return cloneStations<USAStationConfig>(stationData.usa);
+}
+
+export function getProvinceTrackingDefaults(): ProvinceStation[] {
+  return cloneStations<ProvinceStation>(stationData.provinceTrackingDefaults);
+}

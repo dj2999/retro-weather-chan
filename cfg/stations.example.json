@@ -2,7 +2,7 @@
   "national": {
     "mb": [
       { "name": "Portage", "code": "MB/s0000626" },
-      { "name": "Brandon", "code": "MB/s0000492" },
+      { "name": "Brandoon", "code": "MB/s0000492" },
       { "name": "Dauphin", "code": "MB/s0000508", "isBackup": true },
       { "name": "Kenora", "code": "ON/s0000651", "isBackup": true },
       { "name": "Thompson", "code": "MB/s0000695" },

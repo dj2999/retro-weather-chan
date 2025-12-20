@@ -88,7 +88,7 @@ $ tsx src/server.ts
 Clone the repo locally, then run:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 This will use the provided `Dockerfile` to build the container and run the app.

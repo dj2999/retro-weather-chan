@@ -2,17 +2,17 @@
   "national": {
     "mb": [
       { "name": "Portage", "code": "MB/s0000626" },
-      { "name": "Brandon", "code": "MB/s0000492" },
+      { "name": "Brandn", "code": "MB/s0000492" },
       { "name": "Dauphin", "code": "MB/s0000508" },
       { "name": "Kenora", "code": "ON/s0000651" },
       { "name": "Thompson", "code": "MB/s0000695" },
       { "name": "The Pas", "code": "MB/s0000644" },
       { "name": "Lynn Lake", "code": "MB/s0000777" },
-      { "name": "Churchill", "code": "MB/s0000779", "isBackup": true },
+      { "name": "Churchill", "code": "MB/s0000779" },
       { "name": "Sx. Lookout", "code": "ON/s0000748", "isBackup": true },
       { "name": "Red Lake", "code": "ON/s0000676", "isBackup": true },
       { "name": "Flin Flon", "code": "MB/s0000015", "isBackup": true },
-      { "name": "Norway House", "code": "MB/s0000616", "isBackup": true },
+      { "name": "Norway House", "code": "MB/s0000616" },
       { "name": "Dryden", "code": "ON/s0000546", "isBackup": true },
       { "name": "Gillam", "code": "MB/s0000543", "isBackup": true }
     ],

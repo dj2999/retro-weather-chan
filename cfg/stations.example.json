@@ -2,16 +2,16 @@
   "national": {
     "mb": [
       { "name": "Portage", "code": "MB/s0000626" },
-      { "name": "Brandn", "code": "MB/s0000492" },
-      { "name": "Dauphin", "code": "MB/s0000508" },
-      { "name": "Kenora", "code": "ON/s0000651" },
+      { "name": "Brandon", "code": "MB/s0000492" },
+      { "name": "Dauphin", "code": "MB/s0000508", "isBackup": true },
+      { "name": "Kenora", "code": "ON/s0000651", "isBackup": true },
       { "name": "Thompson", "code": "MB/s0000695" },
       { "name": "The Pas", "code": "MB/s0000644" },
       { "name": "Lynn Lake", "code": "MB/s0000777" },
       { "name": "Churchill", "code": "MB/s0000779" },
       { "name": "Sx. Lookout", "code": "ON/s0000748", "isBackup": true },
       { "name": "Red Lake", "code": "ON/s0000676", "isBackup": true },
-      { "name": "Flin Flon", "code": "MB/s0000015", "isBackup": true },
+      { "name": "Flin Flon", "code": "MB/s0000015"},
       { "name": "Norway House", "code": "MB/s0000616" },
       { "name": "Dryden", "code": "ON/s0000546", "isBackup": true },
       { "name": "Gillam", "code": "MB/s0000543", "isBackup": true }
@@ -30,7 +30,7 @@
       { "name": "Lethbridge", "code": "AB/s0000652", "isBackup": true },
       { "name": "Kelowna", "code": "BC/s0000592", "isBackup": true },
       { "name": "Kamloops", "code": "BC/s0000568", "isBackup": true },
-      { "name": "Yorkton", "code": "SK/s0000663", "isBackup": true }
+      { "name": "Yorkton", "code": "SK/s0000663"}
     ],
     "east": [
       { "name": "Toronto", "code": "ON/s0000458" },
